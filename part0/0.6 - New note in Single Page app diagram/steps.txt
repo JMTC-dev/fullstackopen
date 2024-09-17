@@ -1,0 +1,7 @@
+A HTML input element and button (submit) element is rendered to the page by the HTML code
+
+User writes their note in the input element and clicks the submit button element which triggers an event listener in the JavaScript code.
+
+The browser executes the event listener in the JavaScript code. The code makes an HTTP POST request to the address https://studies.cs.helsinki.fi/exampleapp/new_note_spa, which sends a request to the server.
+
+The server checks if the note input is of valid type string, creates the note object and pushes it to the notes array.
