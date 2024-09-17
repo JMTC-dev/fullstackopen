@@ -5,7 +5,7 @@ sequenceDiagram
 
     browser->>server: POST hhttps://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate server
-    Note right of browser: The browser calls the form action, adds the note to the page by redrawing the notes, and then sends the users input to the server to get validated and added to the notes array on the server.
+    Note right of browser: Browser submits note and updates UI, sends input to server for validation.
 
     server-->>browser: Returns HTTP Status 201
     deactivate server
