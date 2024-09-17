@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -9,3 +10,4 @@ sequenceDiagram
     server-->>browser: Returns HTTP Status 201
     deactivate server
     Note right of browser: The server validates the input (typeof string === true, is an object and date is valid), adds a note if valid to the server notes array.
+```
