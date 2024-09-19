@@ -1,8 +1,7 @@
-const Total = ({ courseExercises }) => {
+const Total = ({ parts }) => {
   let exerciseTotal = 0;
-  for (const [key, value] of Object.entries(courseExercises)) {
-    exerciseTotal += value.exercises;
-  }
+  console.log(parts);
+  parts.forEach((part) => (exerciseTotal += part.exercises));
   return <p>Number of exercises {exerciseTotal}</p>;
 };
 
