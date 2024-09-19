@@ -1,6 +1,9 @@
 const Total = ({ courseExercises }) => {
-  const { exercises1, exercises2, exercises3 } = courseExercises;
-  return <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>;
+  let exerciseTotal = 0;
+  for (const [key, value] of Object.entries(courseExercises)) {
+    exerciseTotal += value.exercises;
+  }
+  return <p>Number of exercises {exerciseTotal}</p>;
 };
 
 export default Total;

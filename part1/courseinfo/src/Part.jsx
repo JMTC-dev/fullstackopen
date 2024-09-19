@@ -1,8 +1,9 @@
-const Part = ({ exerciseName, exerciseCount }) => {
+const Part = ({ exerciseInfo }) => {
+  const { name, exercises } = exerciseInfo;
   return (
     <>
       <p>
-        {exerciseName} {exerciseCount}
+        {name} {exercises}
       </p>
     </>
   );
