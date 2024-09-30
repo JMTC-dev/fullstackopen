@@ -16,9 +16,12 @@ const Feedback = ({ clickHandlers }) => {
 };
 
 const StatisticLine = ({ text, value }) => (
-  <p>
-    {text} {value}
-  </p>
+  <>
+    <tr>
+      <th style={{ textAlign: "left" }}>{text}</th>
+      <td>{value}</td>
+    </tr>
+  </>
 );
 
 const Statistics = ({ good, neutral, bad }) => {
@@ -28,12 +31,16 @@ const Statistics = ({ good, neutral, bad }) => {
   if (total === 0) return <div>No feedback given</div>;
   return (
     <div>
-      <StatisticLine text="good" value={good} />
-      <StatisticLine text="neutral" value={neutral} />
-      <StatisticLine text="bad" value={bad} />
-      <StatisticLine text="all" value={total} />
-      <StatisticLine text="average" value={average} />
-      <StatisticLine text="positive" value={positiveScore} />
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={total} />
+          <StatisticLine text="average" value={average} />
+          <StatisticLine text="positive" value={positiveScore} />
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -62,7 +69,6 @@ const App = () => {
   return (
     <div>
       <h2>give feedback</h2>
-
       <Feedback
         clickHandlers={{ handleGoodClick, handleNeutralClick, handleBadClick }}
       />
