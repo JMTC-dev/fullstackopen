@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
 
+const Feedback = ({ clickHandlers }) => {
+  const { handleGoodClick, handleNeutralClick, handleBadClick } = clickHandlers;
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h2>give feedback</h2>
+      <Button handleClick={handleGoodClick} text="good" />
+      <Button handleClick={handleNeutralClick} text="neutral" />
+      <Button handleClick={handleBadClick} text="bad" />
     </>
-  )
-}
+  );
+};
 
-export default App
+const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad;
+  const positiveScore = (good / total) * 100;
+  const average = (good * 1 + neutral * 0 + bad * -1) / total;
+  return (
+    <>
+      <h2>statistics</h2>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average {isNaN(average) ? "0" : average}</p>
+      <p>positive {isNaN(positiveScore) ? "0" : positiveScore}%</p>
+    </>
+  );
+};
+
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNetural] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const handleGoodClick = () => {
+    const updatedGood = good + 1;
+    setGood(updatedGood);
+  };
+
+  const handleNeutralClick = () => {
+    const updatedNeutral = neutral + 1;
+    setNetural(updatedNeutral);
+  };
+
+  const handleBadClick = () => {
+    const updatedBad = bad + 1;
+    setBad(updatedBad);
+  };
+
+  return (
+    <div>
+      <Feedback
+        clickHandlers={{ handleGoodClick, handleNeutralClick, handleBadClick }}
+      />
+      <Statistics good={good} neutral={neutral} bad={bad} />
+    </div>
+  );
+};
+
+export default App;
