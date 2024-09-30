@@ -8,7 +8,6 @@ const Feedback = ({ clickHandlers }) => {
   const { handleGoodClick, handleNeutralClick, handleBadClick } = clickHandlers;
   return (
     <>
-      <h2>give feedback</h2>
       <Button handleClick={handleGoodClick} text="good" />
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
@@ -16,20 +15,26 @@ const Feedback = ({ clickHandlers }) => {
   );
 };
 
+const StatisticLine = ({ text, value }) => (
+  <p>
+    {text} {value}
+  </p>
+);
+
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   const positiveScore = (good / total) * 100;
   const average = (good * 1 + neutral * 0 + bad * -1) / total;
+  if (total === 0) return <div>No feedback given</div>;
   return (
-    <>
-      <h2>statistics</h2>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {isNaN(average) ? "0" : average}</p>
-      <p>positive {isNaN(positiveScore) ? "0" : positiveScore}%</p>
-    </>
+    <div>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={total} />
+      <StatisticLine text="average" value={average} />
+      <StatisticLine text="positive" value={positiveScore} />
+    </div>
   );
 };
 
@@ -56,9 +61,12 @@ const App = () => {
 
   return (
     <div>
+      <h2>give feedback</h2>
+
       <Feedback
         clickHandlers={{ handleGoodClick, handleNeutralClick, handleBadClick }}
       />
+      <h2>statistics</h2>
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
