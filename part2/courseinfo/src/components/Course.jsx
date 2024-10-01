@@ -1,11 +1,15 @@
-const Header = ({ course }) => <h1>{course}</h1>;
+const Header = ({ course }) => <h2>{course}</h2>;
 
 const Total = ({ sum }) => {
   const total = sum.reduce(
     (accumulator, currentValue) => accumulator + currentValue,
     0
   );
-  return <p>Number of exercises {total}</p>;
+  return (
+    <p>
+      <strong>total of exercises {total}</strong>
+    </p>
+  );
 };
 
 const Part = ({ part }) => (
