@@ -37,7 +37,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    if (persons.find((person) => person.name === newName.trim())) {
+    if (persons.some((person) => person.name === newName.trim())) {
       window.alert(`${newName} is already added to phonebook`);
       return;
     }
