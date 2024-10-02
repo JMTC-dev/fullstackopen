@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -38,12 +41,16 @@ const App = () => {
       window.alert(`${newName} is already added to phonebook`);
       return;
     }
-
     const newPerson = {
+      id: persons.length + 1,
       name: newName,
       number: newNumber,
     };
-    setPersons(persons.concat(newPerson));
+    const newPersons = persons.concat(newPerson);
+    setPersons(newPersons);
+    if (search === "") {
+      setFilteredPersons(newPersons);
+    }
     setNewName("");
     setNewNumber("");
   };
@@ -51,27 +58,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input value={search} onChange={handleSearchInput} />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameInput} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInput} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {filteredPersons.map((person) => (
-        <p key={person.id}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      <Filter value={search} onChange={handleSearchInput} />
+      <h3>Add a new</h3>
+      <PersonForm
+        values={{ newName, newNumber }}
+        handlers={{ handleNameInput, handleNumberInput }}
+        onSubmit={addPerson}
+      />
+      <h3>Numbers</h3>
+      <Persons people={filteredPersons} />
     </div>
   );
 };
