@@ -1,10 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Note from "./components/Note";
 
-const App = (props) => {
-  const [notes, setNotes] = useState(props.notes);
+const App = () => {
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
+
+  useEffect(() => {
+    console.log("effect");
+    const fetchData = async () => {
+      try {
+        const url = "http://localhost:3001/notes";
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        console.log("promise fulfilled");
+        const json = await response.json();
+        setNotes(json);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log("render", notes.length, "notes");
 
   const handleNoteChange = (event) => {
     console.log(event.target.value);
