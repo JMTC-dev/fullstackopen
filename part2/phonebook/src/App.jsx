@@ -3,6 +3,7 @@ import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import phonebookServices from "./services/phonebook";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,17 +11,14 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [filteredPersons, setFilteredPersons] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     console.log("effect");
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => {
-        console.log("promise fulfilled");
-        setPersons(response.data);
-        setFilteredPersons(response.data);
-        setisLoading(true);
+    phonebookServices
+      .getAll()
+      .then((initialPhonebook) => {
+        setPersons(initialPhonebook);
+        setFilteredPersons(initialPhonebook);
       })
       .catch((error) => {
         if (error.response) {
@@ -80,7 +78,7 @@ const App = () => {
         onSubmit={addPerson}
       />
       <h3>Numbers</h3>
-      {!isLoading ? (
+      {persons.length === 0 ? (
         <p>No notes found</p>
       ) : (
         <Persons people={filteredPersons} />
