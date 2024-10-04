@@ -54,17 +54,25 @@ const App = () => {
       return;
     }
     const newPerson = {
-      id: persons.length + 1,
       name: newName,
       number: newNumber,
     };
-    const newPersons = persons.concat(newPerson);
-    setPersons(newPersons);
-    if (search === "") {
-      setFilteredPersons(newPersons);
-    }
-    setNewName("");
-    setNewNumber("");
+    phonebookServices
+      .create(newPerson)
+      .then((returnedPerson) => {
+        const newPersons = persons.concat(returnedPerson);
+        setPersons(newPersons);
+        setNewName("");
+        setNewNumber("");
+        if (search === "") {
+          setFilteredPersons(newPersons);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.status);
+        }
+      });
   };
 
   return (

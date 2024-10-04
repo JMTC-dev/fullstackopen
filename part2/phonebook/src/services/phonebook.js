@@ -8,6 +8,13 @@ const getAll = () => {
   return response;
 };
 
+const create = (newObject) => {
+  const request = axios.post(baseURL, newObject);
+  const response = request.then((response) => response.data);
+  return response;
+};
+
 export default {
   getAll,
+  create,
 };
