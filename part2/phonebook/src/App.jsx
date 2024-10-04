@@ -75,6 +75,28 @@ const App = () => {
       });
   };
 
+  const deletePerson = (selectedPerson) => {
+    const deleteConfirmation = window.confirm(
+      `Delete ${selectedPerson.name} ?`
+    );
+    if (!deleteConfirmation) return;
+
+    phonebookServices
+      .remove(selectedPerson.id)
+      .then((returnedPersons) => {
+        const newPersons = persons.filter(
+          (person) => person.id != returnedPersons.id
+        );
+        setPersons(newPersons);
+        setFilteredPersons(newPersons);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.status);
+        }
+      });
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -89,7 +111,7 @@ const App = () => {
       {persons.length === 0 ? (
         <p>No notes found</p>
       ) : (
-        <Persons people={filteredPersons} />
+        <Persons people={filteredPersons} deletePerson={deletePerson} />
       )}
     </div>
   );
