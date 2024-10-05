@@ -13,7 +13,6 @@ const App = () => {
   const [filteredPersons, setFilteredPersons] = useState([]);
 
   useEffect(() => {
-    console.log("effect");
     phonebookServices
       .getAll()
       .then((initialPhonebook) => {
@@ -47,10 +46,39 @@ const App = () => {
     setFilteredPersons(newPersons);
   };
 
+  const updatePerson = (person) => {
+    const newPerson = { ...person, number: newNumber };
+    phonebookServices
+      .update(newPerson.id, newPerson)
+      .then((returnedPerson) => {
+        const newPersons = persons.map((person) =>
+          person.id != newPerson.id ? person : returnedPerson
+        );
+        console.log(newPersons);
+        setPersons(newPersons);
+        setNewName("");
+        setNewNumber("");
+        if (search === "") {
+          setFilteredPersons(newPersons);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
   const addPerson = (event) => {
     event.preventDefault();
-    if (persons.some((person) => person.name === newName.trim())) {
-      window.alert(`${newName} is already added to phonebook`);
+    const inputPerson = persons.find(
+      (person) => person.name === newName.trim()
+    );
+    if (inputPerson) {
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to phonebook, replace the older number with a new one?`
+      );
+      if (confirmUpdate) {
+        updatePerson(inputPerson);
+      }
       return;
     }
     const newPerson = {
