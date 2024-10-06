@@ -1,0 +1,8 @@
+.notification-success {
+  padding: 20px;
+  font-size: 25px;
+  background-color: lightgrey;
+  border: 2px solid darkgreen;
+  color: darkgreen;
+  margin-bottom: 10px;
+}

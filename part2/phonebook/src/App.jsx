@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import phonebookServices from "./services/phonebook";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,7 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [filteredPersons, setFilteredPersons] = useState([]);
-
+  const [notificationMessage, setNotificationMessage] = useState(null);
   useEffect(() => {
     phonebookServices
       .getAll()
@@ -95,6 +96,10 @@ const App = () => {
         if (search === "") {
           setFilteredPersons(newPersons);
         }
+        setNotificationMessage(`Added ${returnedPerson.name}`);
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
       })
       .catch((error) => {
         if (error.response) {
@@ -128,6 +133,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} notification="success" />
       <Filter value={search} onChange={handleSearchInput} />
       <h3>Add a new</h3>
       <PersonForm
@@ -137,7 +143,7 @@ const App = () => {
       />
       <h3>Numbers</h3>
       {persons.length === 0 ? (
-        <p>No notes found</p>
+        <p>No people found</p>
       ) : (
         <Persons people={filteredPersons} deletePerson={deletePerson} />
       )}
