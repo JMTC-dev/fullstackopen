@@ -13,6 +13,8 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [filteredPersons, setFilteredPersons] = useState([]);
   const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationType, setNotificationType] = useState("success");
+
   useEffect(() => {
     phonebookServices
       .getAll()
@@ -25,7 +27,7 @@ const App = () => {
           console.log(error.response.status);
         }
       });
-  }, []);
+  }, [notificationMessage]);
 
   const handleNameInput = (event) => {
     setNewName(event.target.value);
@@ -64,6 +66,13 @@ const App = () => {
         }
       })
       .catch((error) => {
+        setNotificationMessage(
+          `Information of ${person.name} has already been removed from server`
+        );
+        setNotificationType("error");
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
         console.log(error.response);
       });
   };
@@ -97,6 +106,7 @@ const App = () => {
           setFilteredPersons(newPersons);
         }
         setNotificationMessage(`Added ${returnedPerson.name}`);
+        setNotificationType("success");
         setTimeout(() => {
           setNotificationMessage(null);
         }, 5000);
@@ -133,7 +143,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} notification="success" />
+      <Notification
+        message={notificationMessage}
+        notification={notificationType}
+      />
       <Filter value={search} onChange={handleSearchInput} />
       <h3>Add a new</h3>
       <PersonForm

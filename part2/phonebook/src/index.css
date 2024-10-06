@@ -1,8 +1,18 @@
-.notification-success {
+.notification {
   padding: 20px;
   font-size: 25px;
   background-color: lightgrey;
+  border: 2px solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  margin-bottom: 10px;
+}
+
+.success {
   border: 2px solid darkgreen;
   color: darkgreen;
-  margin-bottom: 10px;
+}
+
+.error {
+  border: 2px solid red;
+  color: red;
 }
