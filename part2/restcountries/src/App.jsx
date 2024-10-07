@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import countryServices from "./services/countries";
+import CountryList from "./components/CountryList";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState("");
+  const [countries, setCountries] = useState(null);
+  const [filteredCountries, setFilteredCountries] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const request = await countryServices.getAll();
+      console.log(request);
+      setCountries(request);
+    };
+    fetchData();
+  }, []);
+
+  if (!countries) {
+    return <p>loading...</p>;
+  }
+
+  const handleSearchInput = (event) => {
+    const searchValue = event.target.value;
+    setSearch(searchValue);
+    const filterCountries = countries.filter((country) =>
+      country.name.common
+        .trim()
+        .toLowerCase()
+        .includes(searchValue.trim().toLowerCase())
+    );
+    setFilteredCountries(filterCountries);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <label htmlFor="country">find countries </label>
+      <input
+        name="country"
+        type="text"
+        id="country"
+        value={search}
+        onChange={handleSearchInput}
+      ></input>
+      {!countries ? (
+        <p>No countries found</p>
+      ) : (
+        <CountryList countries={filteredCountries} />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
