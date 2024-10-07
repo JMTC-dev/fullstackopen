@@ -6,6 +6,7 @@ function App() {
   const [search, setSearch] = useState("");
   const [countries, setCountries] = useState(null);
   const [filteredCountries, setFilteredCountries] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +24,7 @@ function App() {
   const handleSearchInput = (event) => {
     const searchValue = event.target.value;
     setSearch(searchValue);
+    setSelectedCountry(null);
     const filterCountries = countries.filter((country) =>
       country.name.common
         .trim()
@@ -45,7 +47,11 @@ function App() {
       {!countries ? (
         <p>No countries found</p>
       ) : (
-        <CountryList countries={filteredCountries} />
+        <CountryList
+          countries={filteredCountries}
+          setSelectedCountry={setSelectedCountry}
+          selectedCountry={selectedCountry}
+        />
       )}
     </>
   );
