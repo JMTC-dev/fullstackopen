@@ -1,3 +1,5 @@
+import CountryWeather from "./CountryWeather";
+
 const CountryItem = ({ country }) => {
   const flagStyle = {
     fontSize: "12rem",
@@ -17,6 +19,9 @@ const CountryItem = ({ country }) => {
           ))}
         </ul>
         <div style={flagStyle}>{country.flag}</div>
+        <div>
+          <CountryWeather country={country} />
+        </div>
       </div>
     </>
   );
