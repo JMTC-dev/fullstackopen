@@ -4,7 +4,7 @@ import CountryInformation from "./CountryInformation";
 const CountryList = ({ countries, setSelectedCountry, selectedCountry }) => {
   const renderList = () => {
     if (!countries) {
-      return <p>No countries available</p>;
+      return <p>Too many matches, specify another filer</p>;
     }
 
     if (countries.length > 10) {
